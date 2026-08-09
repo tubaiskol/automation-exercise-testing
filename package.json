@@ -1,0 +1,24 @@
+{
+  "name": "automation-exercise-testing",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Software testing practice project featuring test case design, manual testing, bug reporting, and test automation using Automation Exercise.",
+  "scripts": {
+    "test": "playwright test",
+    "test:api": "playwright test --project=api",
+    "test:postman": "postman collection run postman/collections/AutomationExercise.postman_collection.json --environment postman/environments/AutomationExercise.example.postman_environment.json",
+    "test:ui": "playwright test tests/e2e/ui",
+    "test:chromium": "playwright test --project=chromium",
+    "test:headed": "playwright test --headed --project=chromium",
+    "test:ui-mode": "playwright test --ui",
+    "test:smoke": "playwright test --grep @smoke",
+    "typecheck": "tsc --noEmit",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.62.1",
+    "@types/node": "26.2.0",
+    "dotenv": "17.4.2",
+    "typescript": "7.0.2"
+  }
+}
