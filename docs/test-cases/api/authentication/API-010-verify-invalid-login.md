@@ -5,5 +5,5 @@
 - Request data: Invalid `email` and `password`
 - Expected application response code: `404`
 - Expected result: The response states that the user was not found.
-- Automation status: Planned
+- Automation status: Automated in Postman and Playwright
 - Automation target: `tests/e2e/api/authentication/verify-login.api.spec.ts`

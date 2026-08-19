@@ -25,4 +25,7 @@ Install the official Postman CLI separately before using this optional command.
 The CLI is not bundled in `package.json`; CI regression coverage is handled by
 Playwright to keep the Node.js dependency tree small and auditable.
 
+The equivalent Playwright suite lives in `tests/e2e/api` and covers the same 14
+scenarios. Run it with `npm run test:api`.
+
 Generated reports and local Postman environment files are ignored by Git.

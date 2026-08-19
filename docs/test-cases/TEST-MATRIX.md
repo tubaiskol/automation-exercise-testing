@@ -50,11 +50,15 @@ Status values:
 | API-004 | PUT to brands list | `api/products/API-004-put-brands-list.md` | `tests/e2e/api/products/brands.api.spec.ts` | Automated |
 | API-005 | POST search product | `api/products/API-005-search-product.md` | `tests/e2e/api/products/search.api.spec.ts` | Automated |
 | API-006 | POST search without required parameter | `api/products/API-006-search-without-parameter.md` | `tests/e2e/api/products/search.api.spec.ts` | Automated |
-| API-007 | POST verify login with valid details | `api/authentication/API-007-verify-valid-login.md` | `tests/e2e/api/authentication/verify-login.api.spec.ts` | Planned |
-| API-008 | POST verify login without email | `api/authentication/API-008-verify-login-without-email.md` | `tests/e2e/api/authentication/verify-login.api.spec.ts` | Planned |
-| API-009 | DELETE to verify-login endpoint | `api/authentication/API-009-delete-verify-login.md` | `tests/e2e/api/authentication/verify-login.api.spec.ts` | Planned |
-| API-010 | POST verify login with invalid details | `api/authentication/API-010-verify-invalid-login.md` | `tests/e2e/api/authentication/verify-login.api.spec.ts` | Planned |
-| API-011 | POST create account | `api/accounts/API-011-create-account.md` | `tests/e2e/api/accounts/accounts.api.spec.ts` | Planned |
-| API-012 | DELETE account | `api/accounts/API-012-delete-account.md` | `tests/e2e/api/accounts/accounts.api.spec.ts` | Planned |
-| API-013 | PUT update account | `api/accounts/API-013-update-account.md` | `tests/e2e/api/accounts/accounts.api.spec.ts` | Planned |
-| API-014 | GET user details by email | `api/accounts/API-014-get-user-by-email.md` | `tests/e2e/api/accounts/accounts.api.spec.ts` | Planned |
+| API-007 | POST verify login with valid details | `api/authentication/API-007-verify-valid-login.md` | `tests/e2e/api/authentication/verify-login.api.spec.ts` | Automated |
+| API-008 | POST verify login without email | `api/authentication/API-008-verify-login-without-email.md` | `tests/e2e/api/authentication/verify-login.api.spec.ts` | Automated |
+| API-009 | DELETE to verify-login endpoint | `api/authentication/API-009-delete-verify-login.md` | `tests/e2e/api/authentication/verify-login.api.spec.ts` | Automated |
+| API-010 | POST verify login with invalid details | `api/authentication/API-010-verify-invalid-login.md` | `tests/e2e/api/authentication/verify-login.api.spec.ts` | Automated |
+| API-011 | POST create account | `api/accounts/API-011-create-account.md` | `tests/e2e/api/accounts/accounts.api.spec.ts` | Automated |
+| API-012 | DELETE account | `api/accounts/API-012-delete-account.md` | `tests/e2e/api/accounts/accounts.api.spec.ts` | Automated |
+| API-013 | PUT update account | `api/accounts/API-013-update-account.md` | `tests/e2e/api/accounts/accounts.api.spec.ts` | Automated |
+| API-014 | GET user details by email | `api/accounts/API-014-get-user-by-email.md` | `tests/e2e/api/accounts/accounts.api.spec.ts` | Automated |
+
+The Accounts scenarios run in lifecycle order (API-011, API-013, API-014,
+API-012) inside one serial `test.describe` block, because they all operate on
+the same generated account.

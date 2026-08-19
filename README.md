@@ -31,6 +31,7 @@ postman/collections/   Importable Postman collection
 postman/environments/  Safe example environment files
 src/pages/             Page Object Model classes
 src/components/        Reusable UI components
+src/api/               API service objects (the request-layer counterpart to POM)
 src/fixtures/          Type-safe Playwright fixtures
 src/data/              Static and environment-backed test data
 src/utils/             Data factories and shared helpers
@@ -47,7 +48,8 @@ npx playwright install
 ```
 
 Copy `.env.example` to `.env` and add credentials for a dedicated test account
-if you want to run the valid-login scenario.
+if you want to run the UI valid-login scenario (TC-002). The API suite needs no
+credentials: it provisions and removes its own accounts.
 
 ## Running Tests
 
@@ -93,14 +95,25 @@ The optional `npm run test:postman` command requires the official Postman CLI to
 be installed separately. Postman CLI is intentionally not included as an npm
 dependency.
 
-API-001 through API-006 are currently automated in both Postman and Playwright.
-API-007 through API-014 are available in the Postman collection and remain
-planned in Playwright.
+All 14 API scenarios (API-001 through API-014) are automated in both Postman and
+Playwright.
+
+Specs never build requests inline. Each endpoint group has a service object in
+`src/api` that owns the URL, HTTP method, and payload shape, so a spec reads as
+intent plus assertions. Every scenario asserts two layers: the HTTP status, and
+the `responseCode` the API reports inside the body.
+
+Scenarios that need an existing user do not depend on shared credentials. The
+`registeredAccount` fixture in `src/fixtures/apiFixtures.ts` creates a real
+account before the test and deletes it afterwards, which keeps API-007 runnable
+in CI and leaves no test data behind. The account lifecycle scenarios
+(API-011 to API-014) run as one serial block with an `afterAll` cleanup net.
 
 ## Current Coverage
 
+- API-001 to API-014: all 14 API scenarios, in Postman and Playwright
 - UI TC-002: Login with valid credentials
 - UI TC-003: Login with invalid credentials
 
-All other UI and API scenarios are currently marked as planned in the test
-matrix and their target files.
+The remaining UI scenarios are marked as planned in the test matrix and their
+target files.
