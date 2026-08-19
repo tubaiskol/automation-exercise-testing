@@ -1,11 +1,11 @@
 import { invalidUser, getTestUser } from '../../../../src/data/users';
-import { expect, test } from '../../../../src/fixtures/testFixtures';
+import { test } from '../../../../src/fixtures/testFixtures';
 
 test.describe('Authentication - Login', () => {
   test(
     'TC-002 | Login user with valid credentials',
-    { tag: ['@authentication', '@smoke', '@positive'] },
-    async ({ homePage, loginPage }) => {
+    { tag: ['@ui', '@authentication', '@smoke', '@positive'] },
+    async ({ loginPage }) => {
       const testUser = getTestUser();
       test.skip(
         !testUser,
@@ -17,42 +17,62 @@ test.describe('Authentication - Login', () => {
       }
 
       await test.step('Open the login page', async () => {
-        await loginPage.goto();
-        await expect(loginPage.loginTitle).toBeVisible();
+        await loginPage.open();
+        await loginPage.expectLoginFormVisible();
       });
 
       await test.step('Submit valid credentials', async () => {
-        await loginPage.login(testUser.email, testUser.password);
+        await loginPage.login(testUser);
       });
 
       await test.step('Verify that the user is logged in', async () => {
-        await expect(homePage.header.loggedInAsLink).toBeVisible();
+        await loginPage.header.expectLoggedIn();
       });
 
       await test.step('Log out to restore the test state', async () => {
-        await homePage.header.logoutLink.click();
-        await expect(loginPage.loginTitle).toBeVisible();
+        await loginPage.header.logout();
+        await loginPage.expectLoginFormVisible();
       });
     },
   );
 
   test(
     'TC-003 | Login user with invalid credentials',
-    { tag: ['@authentication', '@negative', '@regression'] },
+    { tag: ['@ui', '@authentication', '@negative', '@regression'] },
     async ({ loginPage }) => {
       await test.step('Open the login page', async () => {
-        await loginPage.goto();
-        await expect(loginPage.loginTitle).toBeVisible();
+        await loginPage.open();
+        await loginPage.expectLoginFormVisible();
       });
 
       await test.step('Submit invalid credentials', async () => {
-        await loginPage.login(invalidUser.email, invalidUser.password);
+        await loginPage.login(invalidUser);
       });
 
       await test.step('Verify the login error', async () => {
-        await expect(loginPage.loginErrorMessage).toHaveText(
-          'Your email or password is incorrect!',
-        );
+        await loginPage.expectLoginError();
+        await loginPage.header.expectLoggedOut();
+      });
+    },
+  );
+});
+
+test.describe('Navigation - Header and Footer', () => {
+  test(
+    'Header and footer render on the home page',
+    { tag: ['@ui', '@navigation', '@smoke'] },
+    async ({ homePage }) => {
+      await homePage.open();
+
+      await test.step('Verify the guest navigation', async () => {
+        await homePage.header.expectGuestNavigationVisible();
+        await homePage.header.expectLoggedOut();
+      });
+
+      await test.step('Verify the footer', async () => {
+        await homePage.footer.scrollToFooter();
+        await homePage.footer.expectSubscriptionFormVisible();
+        await homePage.footer.expectCopyrightVisible();
       });
     },
   );

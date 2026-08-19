@@ -1,15 +1,21 @@
-import type { Page } from '@playwright/test';
+import { expect, type Locator, type Page } from '@playwright/test';
 
-import { Header } from '../components/Header';
+import { BasePage } from './BasePage';
 
-export class HomePage {
-  readonly header: Header;
+/** The landing page at `/`. */
+export class HomePage extends BasePage {
+  readonly slider: Locator;
+  readonly featuresItems: Locator;
 
-  constructor(private readonly page: Page) {
-    this.header = new Header(page);
+  constructor(page: Page) {
+    super(page, '/');
+
+    this.slider = page.locator('#slider');
+    this.featuresItems = page.locator('.features_items');
   }
 
-  async goto(): Promise<void> {
-    await this.page.goto('/');
+  async expectLoaded(): Promise<void> {
+    await expect(this.slider).toBeVisible();
+    await this.header.expectVisible();
   }
 }
